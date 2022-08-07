@@ -13,6 +13,7 @@ processes_inserted_to_grantt_chart = 0
 def take_input():
     try:
         p = int(input("\nEnter the number of processes : "))
+        global no_of_processes
         no_of_processes = p
     except:
         print("\n [ Insert Numbers Only ! ]")
@@ -131,6 +132,7 @@ def printTable():
         copy_of_process_object[key]['turn_around_time'] = copy_of_process_object[key]['completion_time'] - copy_of_process_object[key]['arrival_time']
         copy_of_process_object[key]['waiting_time'] = copy_of_process_object[key]['turn_around_time'] - copy_of_process_object[key]['burst_time']
 
+    # Process Table 
     print("\n# Table :\n")
     print(f"+{'-'*125}+")
     print(f"|{'Process No':^20}|{'Arrival Time':^20}|{'Burst Time':^20}|{'Completion Time':^20}|{'Turn Around Time':^20}|{'Waiting Time':^20}|")
@@ -141,6 +143,7 @@ def printTable():
         print(f"|{'':^20}|{'':^20}|{'':^20}|{'':^20}|{'':^20}|{'':^20}|")
     print(f"+{'-'*125}+")
 
+    # Gantt Chart 
     print("\n# Gantt Chart : \n")
     print(f"+{'-'*len(grantt_chart)*5}+")
     print("| ",end="")
@@ -154,6 +157,30 @@ def printTable():
         else:
             print(i,end=f"{' '*3}")
 
+    # Average time
+    print("\n\n# Average Time : \n")
+
+    sum_tat = []
+    sum_wt = []
+
+    for value in copy_of_process_object.values():
+        sum_tat.append(value["turn_around_time"])
+        sum_wt.append(value["waiting_time"])
+
+    avg_tat = sum(sum_tat)/no_of_processes
+    avg_wt = sum(sum_wt)/no_of_processes
+
+    print(":: Average TAT = ",end=" ")
+    for count,num in enumerate(sum_tat):
+        if count == 0: print(f"{num}",end=" ")
+        else : print(f"+ {num}",end=" ")
+    print(f"  = {sum(sum_tat)}/{no_of_processes}  = {avg_tat}",end="\n\n")
+
+    print(":: Average WT = ",end=" ")
+    for count,num in enumerate(sum_wt):
+        if count == 0: print(f"{num}",end=" ")
+        else : print(f"+ {num}",end=" ")
+    print(f"  = {sum(sum_wt)}/{no_of_processes}  = {avg_wt}")
 
 # Driver Code 
 take_input()
