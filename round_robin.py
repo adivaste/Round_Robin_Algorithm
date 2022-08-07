@@ -57,7 +57,7 @@ def initialize_queue():
     first_process_at = sorted_project_object_array[0][1]["arrival_time"]
     if(first_process_at != 0):
         for i in range(first_process_at):
-            grantt_chart.append("#")
+            grantt_chart.append(" #")
 
 
 def algorithm():
@@ -107,17 +107,18 @@ def algorithm():
 
             burst_time_array = [ p['burst_time'] for p in copy_of_process_object.values() ]
             sum_of_burst_time = sum(burst_time_array)
-            temp_grantt_chart = [ x for x in grantt_chart if x!='#' ]
+            temp_grantt_chart = [ x for x in grantt_chart if x!=' #' ]
 
             if ( sum_of_burst_time == len(temp_grantt_chart) ):
                 return;
             for count,process_tuple in enumerate(sorted_project_object_array):
                 if top in process_tuple:
                     r_index = count
+            print(r_index)
             if (r_index != None):
                 no_of_ideal_processes = sorted_project_object_array[r_index+1][1]['arrival_time'] - sorted_project_object_array[r_index][1]['arrival_time'] - processes_inserted_to_grantt_chart
                 for i in range(no_of_ideal_processes):
-                    grantt_chart.append("#")
+                    grantt_chart.append(" #")
                 ready_queue.put(sorted_project_object_array[r_index+1][0])
 
 def rindex(mylist, myvalue):
@@ -142,11 +143,16 @@ def printTable():
 
     print("\n# Gantt Chart : \n")
     print(f"+{'-'*len(grantt_chart)*5}+")
-    print("|  ",end="")
+    print("| ",end="")
     for p in grantt_chart:
         print(p.upper(),end=" | ")
     print()
     print(f"+{'-'*len(grantt_chart)*5}+")
+    for i in range(0,len(grantt_chart)+1):
+        if (i<10):
+            print(i,end=f"{' '*4}")
+        else:
+            print(i,end=f"{' '*3}")
 
 
 # Driver Code 
